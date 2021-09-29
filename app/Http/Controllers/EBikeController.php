@@ -123,6 +123,7 @@ class EBikeController extends Controller
      */
     public function destroy(EBike $ebike)
     {
+        $ebike->clearMediaCollection('bikes_photo');
         $ebike->delete();
         return redirect()->route('ebikes.index')->with('success','Bici cancellata con successo');
     }
