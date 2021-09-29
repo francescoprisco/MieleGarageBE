@@ -52,9 +52,16 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+
+        'bikes_photo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/bikes_photo'),
+            'url' => env('APP_URL').'/storage/bikes_photo/',
+        ],
+
         'media' => [
             'driver' => 'local',
-            'root'   => public_path('media'),
+            'root' => storage_path('app/public'),
             'url'    => env('APP_URL').'/media',
         ],
     ],

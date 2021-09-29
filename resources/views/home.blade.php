@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="page-heading">
+        <h3>Dashboard</h3>
+    </div>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-9">
@@ -11,12 +14,12 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="stats-icon purple">
-                                            <i class="iconly-boldShow"></i>
+                                            <i class="iconly-boldProfile"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h6 class="text-muted font-semibold">Profile Views</h6>
-                                        <h6 class="font-extrabold mb-0">112.000</h6>
+                                        <h6 class="text-muted font-semibold">Numero utenti</h6>
+                                        <h6 class="font-extrabold mb-0">{{$users_num}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +93,7 @@
                     <div class="col-12 col-xl-4">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Profile Visit</h4>
+                                <h4>DashBoard</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -265,3 +268,7 @@
         </section>
     </div>
 @endsection
+@push('scripts')
+    <script src="{{asset('assets/vendors/apexcharts/apexcharts.js')}}"></script>
+    <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
+@endpush

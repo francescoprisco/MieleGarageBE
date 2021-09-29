@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EBikeController;
+use App\Http\Controllers\SparePartController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,15 +25,15 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('products', EBikeController::class);
+    Route::resource('ebikes', EBikeController::class);
+    Route::resource('spareparts', SparePartController::class);
+
 });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

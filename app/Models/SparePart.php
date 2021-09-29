@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\User;
 
-class EBike extends Model implements HasMedia
+class SparePart extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia;
 
@@ -18,15 +18,14 @@ class EBike extends Model implements HasMedia
      * @var string[]
      */
     protected $fillable = [
+        'code',
         'name',
         'description',
-        'slug',
-        'wheels_size',
-        'power',
-        'battery',
+        'qty',
     ];
-    public function users()
+
+    public function e_bikes()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(EBike::class);
     }
 }

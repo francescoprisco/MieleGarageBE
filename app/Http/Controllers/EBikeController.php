@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\EBike;
 use Illuminate\Http\Request;
-
 class EBikeController extends Controller
 {
     /**
@@ -14,10 +13,10 @@ class EBikeController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
+       /* $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
         $this->middleware('permission:product-create', ['only' => ['create','store']]);
         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);*/
     }
     /**
      * Display a listing of the resource.
@@ -26,9 +25,8 @@ class EBikeController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
-        return view('products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $ebikes = EBike::all();
+        return view('ebikes.index',compact('ebikes'));
     }
 
     /**
@@ -38,7 +36,7 @@ class EBikeController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('ebikes.create');
     }
 
     /**
@@ -50,69 +48,82 @@ class EBikeController extends Controller
     public function store(Request $request)
     {
         request()->validate([
+            'slug' => 'required',
             'name' => 'required',
-            'detail' => 'required',
+            'description' => 'required',
+            'wheels_size' => 'required',
+            'battery' => 'required',
+            'power' => 'required',
+            'photo' => 'required|file',
         ]);
 
-        Product::create($request->all());
+        $ebike = EBike::create($request->all());
 
-        return redirect()->route('products.index')
-            ->with('success','Product created successfully.');
+        if($request->hasFile('photo') && $request->file('photo')->isValid()){
+            $ebike->addMediaFromRequest('photo')->toMediaCollection('bikes_photo','bikes_photo');
+        }
+        return redirect()->route('ebikes.index')->with('success','Bici aggiunta con successo.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(EBike $ebike)
     {
-        return view('products.show',compact('product'));
+        return view('ebikes.show',compact('ebike'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(EBike $ebike)
     {
-        return view('products.edit',compact('product'));
+        return view('ebikes.edit',compact('ebike'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, EBike $ebike)
     {
         request()->validate([
+            'slug' => 'required',
             'name' => 'required',
-            'detail' => 'required',
+            'description' => 'required',
+            'wheels_size' => 'required',
+            'battery' => 'required',
+            'power' => 'required',
         ]);
 
-        $product->update($request->all());
+        $ebike->update($request->all());
 
-        return redirect()->route('products.index')
-            ->with('success','Product updated successfully');
+        if($request->hasFile('photo') && $request->file('photo')->isValid()){
+            $ebike->clearMediaCollection('bikes_photo');
+            $ebike->addMediaFromRequest('photo')->toMediaCollection('bikes_photo','bikes_photo');
+        }
+
+        return redirect()->route('ebikes.index')->with('success','Bici aggiornata con successo');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(EBike $ebike)
     {
-        $product->delete();
-
-        return redirect()->route('products.index')
-            ->with('success','Product deleted successfully');
+        $ebike->delete();
+        return redirect()->route('ebikes.index')->with('success','Bici cancellata con successo');
     }
 }

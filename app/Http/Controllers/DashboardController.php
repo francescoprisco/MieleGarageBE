@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\EBike;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $users_num = count(User::all());
+        $ebikes_num = count(EBike::all());
+        $title = "Dashboard";
+        return view('home')->with("users_num",$users_num)->with("ebikes_num",$ebikes_num);
     }
 }
