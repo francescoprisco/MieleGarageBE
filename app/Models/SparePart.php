@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SparePart extends Model implements HasMedia
 {
-    use HasFactory,InteractsWithMedia;
+    use HasFactory,InteractsWithMedia,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,7 @@ class SparePart extends Model implements HasMedia
         'name',
         'description',
         'qty',
+        'price'
     ];
 
     public function e_bikes()

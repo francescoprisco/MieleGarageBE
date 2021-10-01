@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SparePart;
+use App\Models\EBike;
+use Illuminate\Support\Facades\Validator;
+use Log;
 
 class SparePartController extends Controller
 {
@@ -13,16 +16,16 @@ class SparePartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $spare_parts = SparePart::All();
         return view('spareparts.index')->with("spare_parts",$spare_parts);
     }
 
-    public function show(SparePart $spare_part)
+    public function show($id)
     {
-      // $spare_parts = SparePart::All();
-        return view('spareparts.show')->with("spare_parts",$spare_part);
+        $spare_part = SparePart::find($id);
+        return view('spareparts.show')->with("spare_part",$spare_part);
     }
     /**
      * Show the form for creating a new resource.
@@ -44,15 +47,22 @@ class SparePartController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            'code' => 'required|unique:spare_parts',
+            'name' => 'required',
+            'qty' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'e_bikes' => 'required|array',
+            'photo' => 'required',
         ]);
 
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')
-            ->with('success','Role created successfully');
+        $sparePart = SparePart::create($request->all());
+        if($request->hasFile('photo') && $request->file('photo')->isValid()){
+            $sparePart->clearMediaCollection('spare_parts_photo');
+            $sparePart->addMediaFromRequest('photo')->toMediaCollection('spare_parts_photo','spare_parts_photo');
+        }
+        $sparePart->e_bikes()->sync($request->e_bikes);
+        return redirect()->route('spareparts.index')->with('success','Componente aggiunto con successo');
     }
 
     /**
@@ -64,8 +74,10 @@ class SparePartController extends Controller
     public function edit($id)
     {
         $spare_part = SparePart::find($id);
-        $e_bikes = EBikes::all();
-        return view('roles.edit',compact('spare_part','e_bikes'));
+
+        $e_bikes = EBike::all();
+
+        return view('spareparts.edit',compact('spare_part','e_bikes'));
     }
 
     /**
@@ -77,19 +89,30 @@ class SparePartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $sparePart = SparePart::find($id);
+        $validator = Validator::make($request->all(), [
+            'code' => 'required',
             'name' => 'required',
-            'permission' => 'required',
-        ]);
+            'qty' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'e_bikes' => 'required|array',
+            ]);
 
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
+        if($validator->fails()){
+            return redirect()->route('spareparts.index')->with('error','Componente non aggiornato');
+        }
 
-        $role->syncPermissions($request->input('permission'));
+        $sparePart->update($request->all());
 
-        return redirect()->route('roles.index')
-            ->with('success','Role updated successfully');
+        if($request->hasFile('photo') && $request->file('photo')->isValid()){
+            $sparePart->clearMediaCollection('spare_parts_photo');
+            $sparePart->addMediaFromRequest('photo')->toMediaCollection('spare_parts_photo','spare_parts_photo');
+        }
+
+        $sparePart->e_bikes()->sync($request->e_bikes);
+
+        return redirect()->route('spareparts.index')->with('success','Componente aggiornato con successo');
     }
     /**
      * Remove the specified resource from storage.
@@ -99,7 +122,9 @@ class SparePartController extends Controller
      */
     public function destroy($id)
     {
-        DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')->with('success','Role deleted successfully');
+        $sparePart = SparePart::find($id);
+        $sparePart->clearMediaCollection('spare_parts_photo');
+        $sparePart->delete();
+        return redirect()->route('spareparts.index')->with('success','Componente di ricambio cancellato con successo');
     }
 }

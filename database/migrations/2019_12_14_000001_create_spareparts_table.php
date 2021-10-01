@@ -18,8 +18,10 @@ class CreateSparePartsTable extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('description');
-            $table->string('qty');
+            $table->integer('qty');
+            $table->decimal('price',$precision = 10, $scale = 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

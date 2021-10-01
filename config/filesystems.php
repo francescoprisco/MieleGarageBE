@@ -58,7 +58,11 @@ return [
             'root' => storage_path('app/public/bikes_photo'),
             'url' => env('APP_URL').'/storage/bikes_photo/',
         ],
-
+        'spare_parts_photo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/spare_parts_photo'),
+            'url' => env('APP_URL').'/storage/spare_parts_photo/',
+        ],
         'media' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

@@ -21,6 +21,7 @@ class CreateEBikesTable extends Migration
             $table->string('power');
             $table->string('battery');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

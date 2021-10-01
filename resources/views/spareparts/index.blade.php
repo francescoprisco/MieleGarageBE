@@ -29,10 +29,12 @@
                     <table class="table table-striped" id="sparePartsTable">
                         <thead>
                         <tr>
+                            <th>Immagine</th>
                             <th>Codice</th>
                             <th>Nome</th>
                             <th>Descrizione</th>
                             <th>Quantità</th>
+                            <th>Prezzo</th>
                             <th>Modello E-Bike</th>
                             <th>Azioni</th>
                         </tr>
@@ -40,15 +42,21 @@
                         <tbody>
                         @foreach($spare_parts as $spare_part)
                         <tr>
+                            <td><img src="{{$spare_part->getFirstMediaUrl('spare_parts_photo', 'thumb')}}"  width="120px"></td>
                             <td>{{$spare_part->code}}</td>
                             <td>{{$spare_part->name}}</td>
                             <td>{{$spare_part->description}}</td>
-                            <td>{{$spare_part->qty}}</td>
+                            <td>{{$spare_part->qty}}
+                            <td>{{$spare_part->price}} €</td>
                             <td>@foreach($spare_part->e_bikes as $e_bike){{$e_bike->name}} @endforeach</td>
                             <td>
-                                <a href="{{route("spareparts.show",$spare_part)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>
-                                <a href="{{route("spareparts.edit",$spare_part)}}"><button type="button" class="btn btn-warning"><i class="fas fa-edit"></i></button></a>
-                                <a href="{{route("spareparts.destroy",$spare_part)}}"><button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button></a>
+                                <form action="{{route("spareparts.destroy",$spare_part)}}" method="POST">
+                                    <a href="{{route("spareparts.show",$spare_part)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>
+                                    <a href="{{route("spareparts.edit",$spare_part)}}"><button type="button" class="btn btn-warning"><i class="fas fa-edit"></i></button></a>
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

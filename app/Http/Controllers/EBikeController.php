@@ -47,7 +47,7 @@ class EBikeController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
+        $this->validate($request, [
             'slug' => 'required',
             'name' => 'required',
             'description' => 'required',
@@ -96,7 +96,7 @@ class EBikeController extends Controller
      */
     public function update(Request $request, EBike $ebike)
     {
-        request()->validate([
+        $validator = Validator::make($request->all(), [
             'slug' => 'required',
             'name' => 'required',
             'description' => 'required',
@@ -104,6 +104,10 @@ class EBikeController extends Controller
             'battery' => 'required',
             'power' => 'required',
         ]);
+
+        if($validator->fails()){
+            return redirect()->route('ebikes.index')->with('error','Bici non aggiornata');
+        }
 
         $ebike->update($request->all());
 

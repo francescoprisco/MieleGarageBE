@@ -18,11 +18,11 @@ use App\Http\Controllers\SparePartController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
-
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -30,10 +30,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
     Route::resource('ebikes', EBikeController::class);
     Route::resource('spareparts', SparePartController::class);
-
 });
 
-Auth::routes();
-
-
-Auth::routes();
