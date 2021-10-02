@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EBikeController;
+use App\Http\Controllers\API\PCController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,9 @@ Route::post('/connect/addebike-touser-fromwp', [EBikeController::class, 'connect
 
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('/password-recovery', [AuthController::class, 'sendPasswordResetLinkEmail']);
-Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('pwd.reset');
 
+Route::post('/get_cities', [PCController::class, 'getCities'])->name('profiles.getcities');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {

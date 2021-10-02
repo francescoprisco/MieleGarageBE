@@ -209,11 +209,18 @@
                     <div class="card-body py-4 px-5">
                         <div class="d-flex align-items-center">
                             <div class="avatar avatar-xl">
-                                <img src="assets/images/faces/1.jpg" alt="Face 1">
+                                <img src="{{$user->profile->getFirstMediaUrl('users_avatar', 'thumb')}}" alt="Face 1">
                             </div>
                             <div class="ms-3 name">
-                                <h5 class="font-bold">John Duck</h5>
-                                <h6 class="text-muted mb-0">@johnducky</h6>
+                                <h5 class="font-bold">{{$user->profile->name}} {{$user->profile->name}}</h5>
+                                <h6 class="text-muted mb-0">{{$user->email}}</h6>
+                                <h6 class="text-muted mb-0">{{$user->profile->address}}</h6>
+                                <h6 class="text-muted mb-0">{{$user->profile->city->name}}, {{$user->profile->provincia->name}} ({{$user->profile->provincia->codice}})</h6>
+                                <!--<a href="{{route('profiles.show',$user->profile)}}"><h6 class="text-muted mb-0">Modifica profilo</h6></a>-->
+                                <form action="{{route("logout",$user)}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn">Esci</button>
+                                </form>
                             </div>
                         </div>
                     </div>

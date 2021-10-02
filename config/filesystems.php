@@ -42,27 +42,24 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-        ],
-
         'bikes_photo' => [
             'driver' => 'local',
             'root' => storage_path('app/public/bikes_photo'),
             'url' => env('APP_URL').'/storage/bikes_photo/',
         ],
+
         'spare_parts_photo' => [
             'driver' => 'local',
             'root' => storage_path('app/public/spare_parts_photo'),
             'url' => env('APP_URL').'/storage/spare_parts_photo/',
         ],
+
+        'users_avatar' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/users_avatar'),
+            'url' => env('APP_URL').'/storage/users_avatar/',
+        ],
+
         'media' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

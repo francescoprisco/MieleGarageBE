@@ -48,7 +48,7 @@
                             <td>{{$spare_part->description}}</td>
                             <td>{{$spare_part->qty}}
                             <td>{{$spare_part->price}} €</td>
-                            <td>@foreach($spare_part->e_bikes as $e_bike){{$e_bike->name}} @endforeach</td>
+                            <td>@foreach($spare_part->e_bikes as $e_bike)<a href="{{route("ebikes.show",$e_bike)}}">{{$e_bike->name}}</a> @endforeach</td>
                             <td>
                                 <form action="{{route("spareparts.destroy",$spare_part)}}" method="POST">
                                     <a href="{{route("spareparts.show",$spare_part)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>

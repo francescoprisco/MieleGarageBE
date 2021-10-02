@@ -10,12 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\EBike;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,InteractsWithMedia,HasRoles,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -49,5 +48,9 @@ class User extends Authenticatable implements HasMedia
     public function e_bikes()
     {
         return $this->belongsToMany(EBike::class);
+    }
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }

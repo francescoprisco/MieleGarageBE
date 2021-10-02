@@ -11,6 +11,11 @@ use Log;
 
 class SparePartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('checkprofile');
+        $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +51,7 @@ class SparePartController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'code' => 'required|unique:spare_parts',
             'name' => 'required',
             'qty' => 'required',
@@ -55,6 +60,10 @@ class SparePartController extends Controller
             'e_bikes' => 'required|array',
             'photo' => 'required',
         ]);
+
+        if($validator->fails()){
+            return redirect()->route('spareparts.index')->with('error','Componente non inserito');
+        }
 
         $sparePart = SparePart::create($request->all());
         if($request->hasFile('photo') && $request->file('photo')->isValid()){

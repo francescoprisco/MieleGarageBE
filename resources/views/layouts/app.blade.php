@@ -19,6 +19,11 @@
         </div>
     </div>
     <div id="main">
+        @if(Session::has('success'))
+            <div class="alert alert-success">{{ Session::get('success') }}</div>
+        @elseif(Session::has('error'))
+            <div class="alert alert-danger">{{ Session::get('message') }}</div>
+        @endif
         @yield('content')
         @include('layouts.footer')
     </div>

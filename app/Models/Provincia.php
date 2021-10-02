@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+
+class Provincia extends Model
+{
+    protected $table = "province";
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'codice'
+    ];
+    public function cities()
+    {
+        return $this->belongsToMany(Provincia::class);
+    }
+}

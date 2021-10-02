@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EBike;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Provincia;
+use Carbon\Carbon;
 
-
-class EBikeController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +18,11 @@ class EBikeController extends Controller
      */
     function __construct()
     {
-      //  $this->middleware('role:admin');
         /* $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
          $this->middleware('permission:product-create', ['only' => ['create','store']]);
          $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:product-delete', ['only' => ['destroy']]);*/
-        $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
-        $this->middleware('checkprofile');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -32,8 +30,8 @@ class EBikeController extends Controller
      */
     public function index()
     {
-        $ebikes = EBike::all();
-        return view('ebikes.index',compact('ebikes'));
+        $profile = Profile::all();
+        return view('users.profiles.index',compact('profile'));
     }
 
     /**
@@ -43,7 +41,9 @@ class EBikeController extends Controller
      */
     public function create()
     {
-        return view('ebikes.create');
+        $province = Provincia::orderBy("name","ASC")->get();
+        $cities = array();
+        return view('users.profiles.create')->with("province",$province)->with("cities",$cities);
     }
 
     /**
@@ -54,26 +54,30 @@ class EBikeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge(["user_id"=>Auth::id()]);
         $validator = Validator::make($request->all(), [
-            'slug' => 'required',
             'name' => 'required',
-            'description' => 'required',
-            'wheels_size' => 'required',
-            'battery' => 'required',
-            'power' => 'required',
+            'surname' => 'required',
+            'phone' => 'required',
+            'provincia_id' => 'required',
+            'city_id' => 'required',
+            'address' => 'required',
             'photo' => 'required|file',
+            'user_id' => 'required|unique:profiles'
         ]);
 
         if($validator->fails()){
-            return redirect()->route('ebikes.index')->with('error','Bici non creata');
+            return redirect()->route('profiles.create')->with('error','Profilo non creato');
         }
 
-        $ebike = EBike::create($request->all());
+
+        $profile = Profile::create($request->all());
 
         if($request->hasFile('photo') && $request->file('photo')->isValid()){
-            $ebike->addMediaFromRequest('photo')->toMediaCollection('bikes_photo','bikes_photo');
+            $profile->addMediaFromRequest('photo')->toMediaCollection('users_avatar','users_avatar');
         }
-        return redirect()->route('ebikes.index')->with('success','Bici aggiunta con successo.');
+
+        return redirect()->route('dashboard')->with('success','Profilo aggiunto con successo.');
     }
 
     /**
@@ -82,9 +86,9 @@ class EBikeController extends Controller
      * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function show(EBike $ebike)
+    public function show(Profile $profile)
     {
-        return view('ebikes.show',compact('ebike'));
+        return view('users.profiles.show',compact('profile'));
     }
 
     /**
@@ -93,9 +97,9 @@ class EBikeController extends Controller
      * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function edit(EBike $ebike)
+    public function edit(Profile $profile)
     {
-        return view('ebikes.edit',compact('ebike'));
+        return view('profiles.edit',compact('profile'));
     }
 
     /**
@@ -105,41 +109,29 @@ class EBikeController extends Controller
      * @param  \App\EBike  $ebike
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EBike $ebike)
+    public function update(Request $request, Profile $profile)
     {
         $validator = Validator::make($request->all(), [
-            'slug' => 'required',
             'name' => 'required',
-            'description' => 'required',
-            'wheels_size' => 'required',
-            'battery' => 'required',
-            'power' => 'required',
+            'surname' => 'required',
+            'phone' => 'required',
+            'provincia_id' => 'required',
+            'city_id' => 'required',
+            'address' => 'required',
+            'photo' => 'required|file',
         ]);
 
         if($validator->fails()){
-            return redirect()->route('ebikes.index')->with('error','Bici non aggiornata');
+            return redirect()->route('profiles.index')->with('error','Profilo non aggiornato');
         }
 
-        $ebike->update($request->all());
+        $profile->update($request->all());
 
         if($request->hasFile('photo') && $request->file('photo')->isValid()){
-            $ebike->clearMediaCollection('bikes_photo');
-            $ebike->addMediaFromRequest('photo')->toMediaCollection('bikes_photo','bikes_photo');
+            $profile->clearMediaCollection('users_avatar');
+            $profile->addMediaFromRequest('photo')->toMediaCollection('users_avatar','users_avatar');
         }
 
-        return redirect()->route('ebikes.index')->with('success','Bici aggiornata con successo');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\EBike  $ebike
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EBike $ebike)
-    {
-        $ebike->clearMediaCollection('bikes_photo');
-        $ebike->delete();
-        return redirect()->route('ebikes.index')->with('success','Bici cancellata con successo');
+        return redirect()->route('profiles.index')->with('success','Profilo aggiornato con successo');
     }
 }

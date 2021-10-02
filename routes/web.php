@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EBikeController;
 use App\Http\Controllers\SparePartController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
     Route::resource('ebikes', EBikeController::class);
     Route::resource('spareparts', SparePartController::class);
+    Route::resource('profiles', ProfileController::class);
 });
 

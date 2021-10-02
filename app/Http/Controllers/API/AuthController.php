@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Validator;
 use Log;
-
+use Carbon\Carbon;
 class AuthController extends Controller
 {
     //this method adds new users
@@ -75,7 +75,7 @@ class AuthController extends Controller
         {
             return response()->json("Utente non trovato", 400);
         }
-
+        $user->email_verified_at = Carbon::now();
         $user->password = Hash::make($request->password);
 
         $user->save();
