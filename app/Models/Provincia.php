@@ -13,12 +13,13 @@ class Provincia extends Model
      *
      * @var string[]
      */
+    protected $with = ['cities'];
     protected $fillable = [
         'name',
         'codice'
     ];
     public function cities()
     {
-        return $this->belongsToMany(Provincia::class);
+        return $this->hasMany(City::class,'provincia_id');
     }
 }

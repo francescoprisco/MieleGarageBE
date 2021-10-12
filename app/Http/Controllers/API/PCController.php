@@ -13,4 +13,8 @@ class PCController extends Controller
         $cities = City::where("provincia_id",$request->provincia_id)->get();
         return $this->success($cities);
     }
+    public function getJson(){
+        $province = Provincia::all();
+        return response()->json($province, 200);
+    }
 }

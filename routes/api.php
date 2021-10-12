@@ -29,16 +29,14 @@ Route::post('/password-recovery', [AuthController::class, 'sendPasswordResetLink
 Route::post('/password-reset', [AuthController::class, 'resetPassword'])->name('pwd.reset');
 
 Route::post('/get_cities', [PCController::class, 'getCities'])->name('profiles.getcities');
+Route::get('/get_json', [PCController::class, 'getjson']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', function(Request $request) {
-        return auth()->user();
-    });
+    Route::resource('profiles', ProfileController::class);
 
     Route::resource('ebikes', EBikeController::class)->only([
         'index', 'show'
     ]);
-
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });
 
