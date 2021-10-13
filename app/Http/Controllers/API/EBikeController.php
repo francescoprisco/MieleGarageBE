@@ -7,7 +7,6 @@ use App\Models\EBike;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-use Log;
 
 class EBikeController extends Controller
 {

@@ -13,6 +13,8 @@ class EBike extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia,SoftDeletes;
 
+    protected $with = "media";
+
     /**
      * The attributes that are mass assignable.
      *

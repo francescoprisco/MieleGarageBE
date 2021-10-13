@@ -10,8 +10,8 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Validator;
-use Log;
 use Carbon\Carbon;
+
 class AuthController extends Controller
 {
     //this method adds new users
@@ -105,10 +105,9 @@ class AuthController extends Controller
     }
 
     // this method signs out users by removing tokens
-    public function signout()
+    public function signout(Request $requests)
     {
-        auth()->user()->tokens()->delete();
-
+        Auth::user()->tokens()->delete();
         return [
             'message' => 'Tokens Revoked'
         ];

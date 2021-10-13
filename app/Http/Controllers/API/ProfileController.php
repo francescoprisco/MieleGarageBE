@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Provincia;
 use Carbon\Carbon;
-
+use Log;
 class ProfileController extends Controller
 {
 
@@ -19,21 +20,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profile = Profile::all();
-        return view('users.profiles.index',compact('profile'));
+        $profiles = Profile::all();
+        return $this->success($profiles);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $province = Provincia::orderBy("name","ASC")->get();
-        $cities = array();
-        return view('users.profiles.create')->with("province",$province)->with("cities",$cities);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,6 +34,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $request->merge(["user_id"=>Auth::id()]);
+        Log::info($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'surname' => 'required',
@@ -51,22 +42,21 @@ class ProfileController extends Controller
             'provincia_id' => 'required',
             'city_id' => 'required',
             'address' => 'required',
-            'photo' => 'required|file',
             'user_id' => 'required|unique:profiles'
         ]);
 
         if($validator->fails()){
-            return redirect()->route('profiles.create')->with('error','Profilo non creato');
+            $this->addError(["message"=>"Creazione profilo fallita"]);
+            return $this->error();
         }
-
 
         $profile = Profile::create($request->all());
 
-        if($request->hasFile('photo') && $request->file('photo')->isValid()){
+        if($request->hasFile('photo')){
             $profile->addMediaFromRequest('photo')->toMediaCollection('users_avatar','users_avatar');
         }
 
-        return redirect()->route('dashboard')->with('success','Profilo aggiunto con successo.');
+        return $this->success($profile);
     }
 
     /**
@@ -100,6 +90,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'surname' => 'required',
@@ -115,7 +106,6 @@ class ProfileController extends Controller
         }
 
         $profile->update($request->all());
-
         if($request->hasFile('photo') && $request->file('photo')->isValid()){
             $profile->clearMediaCollection('users_avatar');
             $profile->addMediaFromRequest('photo')->toMediaCollection('users_avatar','users_avatar');
