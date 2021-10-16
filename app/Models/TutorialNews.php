@@ -8,9 +8,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SparePart extends Model implements HasMedia
+class TutorialNews extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia,SoftDeletes;
+
     protected $appends = ["image_url"];
 
     /**
@@ -19,20 +20,14 @@ class SparePart extends Model implements HasMedia
      * @var string[]
      */
     protected $fillable = [
-        'code',
-        'name',
+        'title',
         'description',
-        'qty',
-        'price'
+        'type',
     ];
-
-    public function e_bikes()
-    {
-        return $this->belongsToMany(EBike::class);
-    }
 
     public function getImageUrlAttribute()
     {
-        return $this->getFirstMediaUrl('spare_parts_photo', 'thumb');
+        return $this->getFirstMediaUrl('bikes_photo', 'thumb');
     }
+
 }

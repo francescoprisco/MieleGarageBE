@@ -14,8 +14,7 @@ class Profile extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia,SoftDeletes;
 
-    protected $with = "media";
-
+    protected $appends =["avatar_url"];
     /**
      * The attributes that are mass assignable.
      *
@@ -41,5 +40,10 @@ class Profile extends Model implements HasMedia
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('users_avatar', 'thumb');
     }
 }

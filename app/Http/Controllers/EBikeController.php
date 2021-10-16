@@ -21,8 +21,8 @@ class EBikeController extends Controller
          $this->middleware('permission:product-create', ['only' => ['create','store']]);
          $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:product-delete', ['only' => ['destroy']]);*/
-        $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
-        $this->middleware('checkprofile');
+       // $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
+        // $this->middleware('checkprofile');
     }
 
     /**

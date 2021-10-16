@@ -6,6 +6,9 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EBikeController;
 use App\Http\Controllers\API\PCController;
 use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\SparePartController;
+use App\Http\Controllers\API\TutorialNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +38,15 @@ Route::get('/get_json', [PCController::class, 'getjson']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('profiles', ProfileController::class);
 
-    Route::resource('ebikes', EBikeController::class)->only([
-        'index', 'show'
-    ]);
+    Route::resource('ebikes', EBikeController::class)->only(['index', 'show']);
+
+    Route::resource('categories', CategoryController::class)->only(['show']);
+    Route::resource('spareparts', SparePartController::class)->only(['show']);
+
+    Route::get('tutorials', [TutorialNewsController::class,'tutorials']);
+    Route::get('news', [TutorialNewsController::class,'news']);
+    Route::get('tutorialnews/{id}', [TutorialNewsController::class,'showTutorialsNews']);
+
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });
 

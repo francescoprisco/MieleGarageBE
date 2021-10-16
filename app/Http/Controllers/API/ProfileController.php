@@ -55,7 +55,6 @@ class ProfileController extends Controller
         if($request->hasFile('photo')){
             $profile->addMediaFromRequest('photo')->toMediaCollection('users_avatar','users_avatar');
         }
-
         return $this->success($profile);
     }
 
