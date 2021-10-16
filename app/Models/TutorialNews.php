@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TutorialNews extends Model implements HasMedia
 {
-    use HasFactory,InteractsWithMedia,SoftDeletes;
+    use HasFactory,InteractsWithMedia;
 
-    protected $appends = ["image_url"];
+    protected $appends = ["image_url","video_url"];
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +26,10 @@ class TutorialNews extends Model implements HasMedia
 
     public function getImageUrlAttribute()
     {
-        return $this->getFirstMediaUrl('bikes_photo', 'thumb');
+        return $this->getFirstMediaUrl('newstutorial_photo', 'thumb');
     }
-
+    public function getVideoUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('newstutorial_video');
+    }
 }

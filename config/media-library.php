@@ -6,13 +6,13 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => ['media','bikes_photo','spare_parts_photo','users_avatar'],
+    'disk_name' => ['media','bikes_photo','spare_parts_photo','users_avatar','newstutorial_photo','newstutorial_video'],
 
     /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
-    'max_file_size' => 1024 * 1024 * 10, // 10MB
+    'max_file_size' => 1024 * 1024 * 50, // 10MB
 
     /*
      * This queue will be used to generate derived and responsive images.

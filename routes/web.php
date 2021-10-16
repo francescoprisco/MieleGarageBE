@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EBikeController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TutorialNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('ebikes', EBikeController::class);
+    Route::resource('tutorialnews', TutorialNewsController::class);
     Route::resource('spareparts', SparePartController::class);
     Route::resource('profiles', ProfileController::class);
 });

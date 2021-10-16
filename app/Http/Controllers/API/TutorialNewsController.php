@@ -14,17 +14,13 @@ class TutorialNewsController extends Controller
      */
     public function tutorials()
     {
-        $tutorials = TutorialNews::where("type","0");
+        $tutorials = TutorialNews::where("type",0)->get();
         return $this->success($tutorials);
     }
 
     public function news()
     {
-        $tutorials = TutorialNews::where("type","1");
+        $tutorials = TutorialNews::where("type",1)->get();
         return $this->success($tutorials);
-    }
-    public function showTutorialsNews($id)
-    {
-      print_r($id);
     }
 }

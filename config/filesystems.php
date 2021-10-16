@@ -53,13 +53,21 @@ return [
             'root' => storage_path('app/public/spare_parts_photo'),
             'url' => env('APP_URL').'/storage/spare_parts_photo/',
         ],
-
+        'newstutorial_photo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/newstutorial_photo'),
+            'url' => env('APP_URL').'/storage/newstutorial_photo/',
+        ],
+        'newstutorial_video' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/newstutorial_video'),
+            'url' => env('APP_URL').'/storage/newstutorial_video/',
+        ],
         'users_avatar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/users_avatar'),
             'url' => env('APP_URL').'/storage/users_avatar/',
         ],
-
         'media' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
