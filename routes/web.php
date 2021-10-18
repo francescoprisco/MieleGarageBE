@@ -9,6 +9,7 @@ use App\Http\Controllers\EBikeController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TutorialNewsController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,8 @@ Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/payment/initiate/{code}/{payment_option_id}/{data}', [PaymentController::class,'initiate'])->name('payment.initiate');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

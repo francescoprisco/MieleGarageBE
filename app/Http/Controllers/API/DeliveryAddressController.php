@@ -34,17 +34,16 @@ class DeliveryAddressController extends Controller
             if( empty($deliveryAddress) ){
                 $order = Order::where('user_id', Auth::id() )->latest()->first();
                 $deliveryAddress = $order->deliveryAddress;
+                return response()->json(["data" => $deliveryAddress,], 200);
             }
-            if( !empty($deliveryAddress) ){
-                return $deliveryAddress;
+            if(!empty($deliveryAddress)){
+                return response()->json(["data" => $deliveryAddress,], 200);
             }else{
                 throw new Exception('No Delivery Address found!');
             }
 
         }catch(Exception $ex){
-            return response()->json([
-                "message" => 'No Delivery Address found!',
-            ], 400);
+            return response()->json(["message" => 'No Delivery Address found!',], 400);
         }
     }
 

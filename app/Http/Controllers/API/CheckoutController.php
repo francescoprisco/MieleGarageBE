@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +12,8 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PaymentOption;
 use App\Models\Payment;
-use App\Models\Currency;
-use App\Models\Wallet;
-use App\Models\SingletonVendor;
 
-class CheckoutController extends BaseController
+class CheckoutController extends Controller
 {
     //
     public function initiate(CheckoutRequest $request)
@@ -29,15 +27,14 @@ class CheckoutController extends BaseController
                 $order->code = strtoupper(Str::random(10));
                 $order->payment_option_id = $request->payment_option_id;
                 $order->delivery_address_id = $request->delivery_address_id;
-                $order->vendor_id = $request->vendor_id;
-                $order->currency_id = $request->currency_id;
                 $order->total_amount = $request->total_amount;
                 $order->sub_total_amount = $request->sub_total_amount;
                 $order->delivery_fee = $request->delivery_fee;
-                $order->note = $request->note;
-                $order->time_slot = $request->time_slot;
-                //
-                if( $paymentOption->type == "cash" || $paymentOption->type == "bonifico" ){
+
+                if( $paymentOption->type == "cash" || $paymentOption->slug == "transfer" ){
+                    $order->payment_status = "pending";
+                }
+                if( $paymentOption->type == "cash" || $paymentOption->slug == "cash" ){
                     $order->payment_status = "pending";
                 }
 
@@ -45,16 +42,14 @@ class CheckoutController extends BaseController
 
 
                 //crate the record of the ordered products
-                foreach( $request->products as $product ){
+                foreach( $request->spare_parts as $sparepart ){
                     $orderProduct = new OrderProduct();
                     $orderProduct->order_id = $order->id;
-                    $orderProduct->product_id = $product['id'];
-                    $orderProduct->price = $product['price'];
-                    $orderProduct->quantity = $product['quantity'];
+                    $orderProduct->product_id = $sparepart['id'];
+                    $orderProduct->price = $sparepart['price'];
+                    $orderProduct->quantity = $sparepart['quantity'];
                     $orderProduct->save();
                 }
-
-
 
                 $message = "Ordine inserito con successo!. ";
                 if( $paymentOption->type != "cash"){
@@ -68,32 +63,26 @@ class CheckoutController extends BaseController
 
                     $paymentTransaction = $this->stripePayCheckOut($paymentOption, $order);
                     $link = route('payment.initiate',["code" => $order->code, "payment_option_id" => $paymentOption->id, "data" => $paymentTransaction->id ]);
-
                     //save the payment
                     $payment = new Payment();
                     $payment->order_id = $order->id;
                     $payment->payment_option_id = $paymentOption->id;
                     $payment->transaction_ref = $paymentTransaction->payment_intent;
                     $payment->save();
-
                 }
 
                 if( $paymentOption->type == "cash" ){
                     //send notification and mail
-                    $this->sendNewOrderNotifications($order);
+                    //$this->sendNewOrderNotifications($order);
                 }
 
-                //record earning for vendor
-              //  $order->updateVendorEarning(true);
-
                 DB::commit();
-
-                return response()->json([
+                return $this->success([
                     "order" => $order,
                     "transaction_ref" => $transactionRef,
                     "message" => $message,
                     "link" => $link ?? "",
-                ], 200);
+                ]);
 
             }catch(\Exception $error){
 
@@ -122,8 +111,8 @@ class CheckoutController extends BaseController
         $stripe = new \Stripe\StripeClient($paymentOption->secret_key);
         // Create a Checkout Session
         $checkout = $stripe->checkout->sessions->create([
-            'success_url' => route('orders.update')."?code=".$order->code."&type=stripe",
-            'cancel_url' => route('orders.update')."?code=".$order->code."&type=stripe&status=failed",
+            'success_url' => route('orders.update',$order)."?code=".$order->code."&type=stripe",
+            'cancel_url' => route('orders.update',$order)."?code=".$order->code."&type=stripe&status=failed",
             'payment_method_types' => ['card'],
             'mode' => 'payment',
             'line_items' => [

@@ -10,6 +10,9 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\SparePartController;
 use App\Http\Controllers\API\TutorialNewsController;
 use App\Http\Controllers\API\DeliveryAddressController;
+use App\Http\Controllers\API\CheckoutController;
+use App\Http\Controllers\API\PaymentOptionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +52,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('delivery/addresses', DeliveryAddressController::class);
     Route::get('default/delivery/address', [DeliveryAddressController::class,'default']);
+    Route::post('/checkout/initiate', [CheckoutController::class,'initiate']);
+
+    Route::apiResource('/payment/options', PaymentOptionController::class)->only('index');
+
+    Route::post('/order/payment/update/stripe',  [PaymentController::class,'stripeUpdate']);
+    Route::get('/order/payment/update',  [PaymentController::class,'update'])->name('payment.update');
+
+    Route::apiResource('orders', OrderController::class);
 
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });
