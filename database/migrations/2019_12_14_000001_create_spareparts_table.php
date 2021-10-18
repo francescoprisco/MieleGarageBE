@@ -20,6 +20,7 @@ class CreateSparePartsTable extends Migration
             $table->string('description');
             $table->integer('qty');
             $table->decimal('price',$precision = 10, $scale = 2);
+            $table->decimal('weight',$precision = 10, $scale = 2);
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('category');
             $table->timestamps();

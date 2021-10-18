@@ -9,7 +9,7 @@ use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\SparePartController;
 use App\Http\Controllers\API\TutorialNewsController;
-
+use App\Http\Controllers\API\DeliveryAddressController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,6 +46,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('tutorials', [TutorialNewsController::class,'tutorials']);
     Route::get('news', [TutorialNewsController::class,'news']);
     Route::get('tutorialnews/{id}', [TutorialNewsController::class,'showTutorialsNews']);
+
+    Route::apiResource('delivery/addresses', DeliveryAddressController::class);
+    Route::get('default/delivery/address', [DeliveryAddressController::class,'default']);
 
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });

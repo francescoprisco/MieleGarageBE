@@ -23,7 +23,8 @@ class SparePart extends Model implements HasMedia
         'name',
         'description',
         'qty',
-        'price'
+        'price',
+        'weight'
     ];
 
     public function e_bikes()

@@ -40,11 +40,11 @@
                         <tbody>
                         @foreach($tutorialNews as $tn)
                             <tr>
-                                <td><img src="{{$tn->getFirstMediaUrl('tutorialnews_photo', 'thumb')}}"  width="120px"></td>
+                                <td><img src="{{$tn->getFirstMediaUrl('newstutorial_photo', 'thumb')}}"  width="120px"></td>
                                 <td>{{$tn->title}}</td>
                                 <td>{{$tn->description}}</td>
                                 <td>@if($tn->type==0) Tutorial @else News @endif </td>
-                                <td>{{$tn->getFirstMediaUrl('tutorialnews_video', 'thumb')}}</td>
+                                <td><a href="{{$tn->getFirstMediaUrl('newstutorial_video')}}">Guarda</a></td>
                                 <td>
                                     <form action="{{route("tutorialnews.destroy",$tn)}}" method="POST">
                                     <a href="{{route("tutorialnews.show",$tn)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>
