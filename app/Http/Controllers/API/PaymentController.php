@@ -35,7 +35,6 @@ class PaymentController extends Controller
                 $payment->save();
 
                 //update order status
-                $order->status = "preparing";
                 $order->payment_status = "successful";
                 $order->save();
 
