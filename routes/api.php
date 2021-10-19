@@ -14,6 +14,7 @@ use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\PaymentOptionController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\DeliveryFeeController;
 
 
 /*
@@ -63,6 +64,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     Route::apiResource('orders', OrderController::class);
+    Route::get('/deliveryfees', [DeliveryFeeController::class,'index']);
 
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });
