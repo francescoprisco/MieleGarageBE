@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderProduct extends Model
+class OrderSparePart extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -36,7 +36,7 @@ class OrderProduct extends Model
         return $this->belongsTo(\App\Models\Order::class)->withTrashed();
     }
 
-    public function product()
+    public function spare_part()
     {
         return $this->belongsTo(\App\Models\SparePart::class)->withTrashed();
     }

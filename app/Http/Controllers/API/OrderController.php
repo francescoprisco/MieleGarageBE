@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Traits\FirebaseAuthTrait;
-use App\Traits\NotificationTrait;
+//use App\Traits\FirebaseAuthTrait;
+//use App\Traits\NotificationTrait;
 
 class OrderController extends Controller
 {
 
-    use FirebaseAuthTrait, NotificationTrait;
+    //use NotificationTrait;
 
     public function index(Request $request)
     {
@@ -20,7 +20,7 @@ class OrderController extends Controller
         if (Auth::user()->hasRole('driver')) {
 
             $type = $request->type;
-            $orders = Order::with('currency', 'vendor', 'products.product', 'deliveryAddress', 'paymentOption', 'user')
+            $orders = Order::with('spare_parts.product', 'deliveryAddress', 'paymentOption', 'user')
                 ->where('driver_id', Auth::id())
                 ->when(!empty($type), function ($query) {
                     return $query->whereIn('status', ['delivered', 'failed']);

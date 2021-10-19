@@ -60,7 +60,7 @@ class Order extends Model
 
     public function spare_parts()
     {
-        return $this->hasMany(\App\Models\OrderProduct::class);
+        return $this->hasMany(\App\Models\OrderSparePart::class);
     }
 
     public function user()
@@ -72,7 +72,10 @@ class Order extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
-
+    public function payment()
+    {
+        return $this->belongsTo(\App\Models\Payment::class)->withTrashed();
+    }
     public function paymentOption()
     {
         return $this->belongsTo(\App\Models\PaymentOption::class)->withTrashed();

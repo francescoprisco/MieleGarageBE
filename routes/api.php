@@ -12,6 +12,9 @@ use App\Http\Controllers\API\TutorialNewsController;
 use App\Http\Controllers\API\DeliveryAddressController;
 use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\PaymentOptionController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\PaymentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,8 @@ use App\Http\Controllers\API\PaymentOptionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/order/payment/update',  [PaymentController::class,'update'])->name('payment.update');
+Route::post('/order/payment/update/stripe',  [PaymentController::class,'stripeUpdate']);
 
 //register new user
 Route::post('/create-account', [AuthController::class, 'createAccount']);
@@ -56,8 +61,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('/payment/options', PaymentOptionController::class)->only('index');
 
-    Route::post('/order/payment/update/stripe',  [PaymentController::class,'stripeUpdate']);
-    Route::get('/order/payment/update',  [PaymentController::class,'update'])->name('payment.update');
 
     Route::apiResource('orders', OrderController::class);
 

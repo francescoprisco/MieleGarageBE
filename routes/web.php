@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TutorialNewsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +37,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tutorialnews', TutorialNewsController::class);
     Route::resource('spareparts', SparePartController::class);
     Route::resource('profiles', ProfileController::class);
+    Route::resource('order', OrderController::class)->only('index', 'show', 'store', 'update');
 });
 

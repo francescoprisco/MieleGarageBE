@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\Order;
-use App\Models\OrderProduct;
+use App\Models\OrderSparePart;
 use App\Models\PaymentOption;
 use App\Models\Payment;
 
@@ -43,9 +43,9 @@ class CheckoutController extends Controller
 
                 //crate the record of the ordered products
                 foreach( $request->spare_parts as $sparepart ){
-                    $orderProduct = new OrderProduct();
+                    $orderProduct = new OrderSparePart();
                     $orderProduct->order_id = $order->id;
-                    $orderProduct->product_id = $sparepart['id'];
+                    $orderProduct->spare_part_id = $sparepart['id'];
                     $orderProduct->price = $sparepart['price'];
                     $orderProduct->quantity = $sparepart['quantity'];
                     $orderProduct->save();
@@ -111,8 +111,8 @@ class CheckoutController extends Controller
         $stripe = new \Stripe\StripeClient($paymentOption->secret_key);
         // Create a Checkout Session
         $checkout = $stripe->checkout->sessions->create([
-            'success_url' => route('orders.update',$order)."?code=".$order->code."&type=stripe",
-            'cancel_url' => route('orders.update',$order)."?code=".$order->code."&type=stripe&status=failed",
+            'success_url' => route('payment.update')."?code=".$order->code."&type=stripe",
+            'cancel_url' => route('payment.update')."?code=".$order->code."&type=stripe&status=failed",
             'payment_method_types' => ['card'],
             'mode' => 'payment',
             'line_items' => [
