@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SparePart extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia,SoftDeletes;
+
     protected $appends = ["image_url"];
 
     /**

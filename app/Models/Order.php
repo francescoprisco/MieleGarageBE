@@ -68,10 +68,6 @@ class Order extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
-    public function driver()
-    {
-        return $this->belongsTo(\App\Models\User::class);
-    }
     public function payment()
     {
         return $this->belongsTo(\App\Models\Payment::class)->withTrashed();

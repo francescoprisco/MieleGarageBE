@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 //use App\Traits\FirebaseAuthTrait;
 //use App\Traits\NotificationTrait;
-
+use Log;
 class OrderController extends Controller
 {
 
@@ -17,37 +17,12 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         //check if the user requesting this is a driver user
-        if (Auth::user()->hasRole('driver')) {
+            $orders = Order::with('spare_parts.spare_part', 'deliveryAddress', 'paymentOption', 'user')->where('user_id', Auth::id())->orderBy("updated_at", 'desc')->get();
 
-            $type = $request->type;
-            $orders = Order::with('spare_parts.product', 'deliveryAddress', 'paymentOption', 'user')
-                ->where('driver_id', Auth::id())
-                ->when(!empty($type), function ($query) {
-                    return $query->whereIn('status', ['delivered', 'failed']);
-                }, function ($query) {
-                    return $query->whereNotIn('status', ['delivered', 'failed']);
-                })
-                ->orderBy("updated_at", 'desc')
-                ->paginate(config('constants.paginate'));
-            //Log::debug(['Orders' => $orders]);
+        //Log::debug(['Orders' => $orders]);
+       // return response()->json($orders, 200);
 
-        } else {
-
-            $type = $request->type;
-            $status = $request->status;
-            $orders = Order::with('currency', 'vendor', 'products.product', 'deliveryAddress', 'paymentOption', 'driver')
-                ->when($status, function ($query) use ($status) {
-                    return $query->where('status', $status);
-                })
-                ->when($type == "vendor", function ($query) use ($type) {
-                    return $query->where('vendor_id', Auth::user()->vendor_id)->with('user');
-                }, function ($query) {
-                    return $query->where('user_id', Auth::id());
-                })
-                ->orderBy("updated_at", 'desc')
-                ->paginate(config('constants.paginate'));
-        }
-        return response()->json($orders, 200);
+        return $this->success($orders);
     }
 
 
