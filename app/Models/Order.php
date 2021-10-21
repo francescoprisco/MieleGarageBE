@@ -24,7 +24,7 @@ class Order extends Model
         'delivery_fee',
         'status',
         'payment_status',
-        'time_slot',
+        'traking_code',
     ];
 
     /**
@@ -42,22 +42,6 @@ class Order extends Model
         'delivery_fee' => 'double',
     ];
 
-
-    protected static function booted()
-    {
-
-        static::updated(function ($order) {
-            //
-            if( $order->status == "failed" && $order->paymentOption->slug == "wallet" ){
-                $wallet = Wallet::where('user_id', $order->user_id)->first();
-                $wallet->balance += $order->total_amount;
-                $wallet->save();
-            }
-        });
-
-    }
-
-
     public function spare_parts()
     {
         return $this->hasMany(\App\Models\OrderSparePart::class);
@@ -70,11 +54,11 @@ class Order extends Model
 
     public function payment()
     {
-        return $this->belongsTo(\App\Models\Payment::class)->withTrashed();
+        return $this->belongsTo(\App\Models\Payment::class);
     }
     public function paymentOption()
     {
-        return $this->belongsTo(\App\Models\PaymentOption::class)->withTrashed();
+        return $this->belongsTo(\App\Models\PaymentOption::class);
     }
 
     public function deliveryAddress()

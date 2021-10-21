@@ -1,9 +1,9 @@
 @extends("layouts.app")
 @push("styles")
-    <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 @endpush
 @push("scripts")
-    <script src="assets/vendors/choices.js/choices.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
     $(document).ready(function(){
         var multipleCancelButton = new Choices('#choices-multiple-remove-button', {

@@ -22,12 +22,12 @@
         @if(Session::has('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>
         @elseif(Session::has('error'))
-            <div class="alert alert-danger">{{ Session::get('message') }}</div>
+            <div class="alert alert-danger">{{ Session::get('error') }}</div>
         @endif
         @yield('content')
         @include('layouts.footer')
     </div>
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>

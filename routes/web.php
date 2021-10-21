@@ -5,11 +5,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EBikeController;
+use App\Http\Controllers\EBikeConnectorController;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TutorialNewsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tutorialnews', TutorialNewsController::class);
     Route::resource('spareparts', SparePartController::class);
     Route::resource('profiles', ProfileController::class);
-    Route::resource('order', OrderController::class)->only('index', 'show', 'store', 'update');
+    Route::resource('orders', OrderController::class);
+    Route::resource('ebikesconnector', EBikeConnectorController::class)->except(['show','edit']);
+    Route::get('settings/deliveryfees', [SettingController::class,'indexDeliveryFees'])->name('deliveryfees.index');
+    Route::get('settings/adddeliveryfees', [SettingController::class,'createDeliveryFees'])->name('deliveryfees.create');
+    Route::post('settings/storedeliveryfees', [SettingController::class,'storeDeliveryFees'])->name('deliveryfees.store');
+    Route::delete('settings/deletedeliveryfees/{id}', [SettingController::class,'deleteDeliveryFees'])->name('deliveryfees.destroy');
+
 });
 

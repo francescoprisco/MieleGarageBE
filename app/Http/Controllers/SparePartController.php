@@ -14,7 +14,7 @@ class SparePartController extends Controller
     public function __construct()
     {
         $this->middleware('checkprofile');
-        $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
+       // $this->middleware('role:admin', ['only' => ['show','create','destroy','edit']]);
     }
     /**
      * Display a listing of the resource.
