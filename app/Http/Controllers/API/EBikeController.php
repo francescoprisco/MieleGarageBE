@@ -15,14 +15,14 @@ class EBikeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $ebikes = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->withPivot('personal_name')->get();
+        $ebikes = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->withPivot('personal_name')->withPivot('id')->get();
         return $this->success($ebikes);
     }
 
     public function show($id)
     {
         $user = Auth::user();
-        $ebike = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->wherePivot('e_bike_id', '=', $id)->withPivot('personal_name')->first();
+        $ebike = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->wherePivot('e_bike_id', '=', $id)->withPivot('personal_name')->withPivot('id')->first();
 
         if($ebike)
         {

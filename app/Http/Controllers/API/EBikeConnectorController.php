@@ -21,13 +21,14 @@ class EBikeConnectorController extends Controller
     public function changeName(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'e_bike_id' => 'required',
+            'id' => 'required',
+            'personal_name' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $ebikesUser = EBikeUser::where("e_bike_id",$request->e_bike_id)->where("user_id",Auth::id())->first();
-        $ebikesUser->name = $request->name;
+        $ebikesUser = EBikeUser::where("id",$request->id)->first();
+        $ebikesUser->personal_name = $request->personal_name;
         $ebikesUser->save();
         return $this->success($ebikesUser);
     }
