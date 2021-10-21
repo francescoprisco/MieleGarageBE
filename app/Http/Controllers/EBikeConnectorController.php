@@ -66,7 +66,7 @@ class EBikeConnectorController extends Controller
             return redirect()->route('ebikesconnector.index')->with('error','Bici e utente non collegati');
         }
 
-        $ebike = EBikeUser::create($request->all());
+        EBikeUser::create($request->all());
 
         return redirect()->route('ebikesconnector.index')->with('success','Bici collegata all\'utente con successo.');
     }

@@ -15,7 +15,7 @@ use App\Http\Controllers\API\PaymentOptionController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\DeliveryFeeController;
-
+use App\Http\Controllers\API\EBikeConnectorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +65,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('orders', OrderController::class);
     Route::get('/deliveryfees', [DeliveryFeeController::class,'index']);
+
+    Route::post('/changebikename', [EBikeConnectorController::class, 'changeName']);
 
     Route::post('/sign-out', [AuthController::class, 'signout']);
 });

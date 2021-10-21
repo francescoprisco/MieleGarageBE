@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\EBikeUser;
 use Illuminate\Http\Request;
 use App\Models\EBike;
 use App\Models\User;
@@ -14,14 +15,15 @@ class EBikeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $ebikes = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->get();
+        $ebikes = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->withPivot('personal_name')->get();
         return $this->success($ebikes);
     }
 
     public function show($id)
     {
+        $user = Auth::user();
+        $ebike = $user->e_bikes()->wherePivot('user_id', '=', $user->id)->wherePivot('e_bike_id', '=', $id)->withPivot('personal_name')->first();
 
-        $ebike = Ebike::find($id);
         if($ebike)
         {
             return $this->success($ebike);
