@@ -83,4 +83,17 @@ class EBikeConnectorController extends Controller
         $EBikeUser->delete();
         return redirect()->route('ebikesconnector.index')->with('success','Bici scollegata con successo');
     }
+    public function migrator(Request $request,$id)
+    {
+        $users = User::all();
+        $ebikeUser = EBikeUser::find($id);
+        return view('ebikes.connector.migration')->with('users',$users)->with("ebikeUser",$ebikeUser);
+    }
+    public function migrate(Request $request)
+    {
+        $ebikeUser = EBikeUser::find($request->ebikeUserID);
+        $ebikeUser->user_id = $request->user_id;
+        $ebikeUser->save();
+        return redirect()->route('ebikesconnector.index')->with('success','Bici riassegnata con successo');
+    }
 }

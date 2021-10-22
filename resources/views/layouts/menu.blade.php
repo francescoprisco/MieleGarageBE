@@ -22,7 +22,7 @@
                 <li class="submenu-item {{ (request()->is('*connector*')) ? 'active' : '' }}">
                 <a href="{{route('ebikesconnector.index')}}" class='sidebar-link'>
                         <i class="bi bi-bicycle"></i> <i class="bi bi-people"></i>
-                        <span>Collegamento Bici - Utente</span>
+                        <span>Assegna Bici</span>
                     </a>
                 </li>
             </ul>

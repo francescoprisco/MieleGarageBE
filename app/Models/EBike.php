@@ -28,6 +28,10 @@ class EBike extends Model implements HasMedia
         'wheels_size',
         'power',
         'battery',
+        'gear',
+        'max_speed',
+        'weight',
+        'frame'
     ];
     public function users()
     {

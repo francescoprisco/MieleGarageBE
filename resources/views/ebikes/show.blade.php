@@ -54,6 +54,26 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <h6>Peso</h6>
+                                    <p>{{$ebike->weight}}</p>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <h6>Velocitò Massima</h6>
+                                    <p>{{$ebike->max_speed}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <h6>Cambio</h6>
+                                    <p>{{$ebike->gear}}</p>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <h6>Telaio</h6>
+                                    <p>{{$ebike->frame}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12 col-12">
                                     <h6>Descrizione</h6>
                                     <p>{{$ebike->description}}</p>

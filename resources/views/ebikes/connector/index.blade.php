@@ -40,9 +40,10 @@
                             <tr>
                                 <td><a href="{{route("ebikes.show",$ebikeUser->e_bike)}}">{{$ebikeUser->e_bike->name}}</a></td>
                                 <td><a href="{{route("users.show",$ebikeUser->user)}}">{{$ebikeUser->user->profile->name}} {{$ebikeUser->user->profile->name}}</a></td>
-                                <td>{{$ebikeUser->name}}</td>
+                                <td>{{$ebikeUser->personal_name}}</td>
                                 <td>
                                     <form action="{{route("ebikesconnector.destroy",$ebikeUser)}}" method="POST">
+                                        <a href="{{route("ebikesconnector.migrator",$ebikeUser)}}"><button type="button" class="btn btn-success"><i class="fas fa-exchange-alt"></i></button></a>
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

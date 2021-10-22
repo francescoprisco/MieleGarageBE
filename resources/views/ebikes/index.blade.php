@@ -35,6 +35,10 @@
                             <th>Descrizione</th>
                             <th>Potenza</th>
                             <th>Batteria</th>
+                            <th>Peso</th>
+                            <th>Velocità Massima</th>
+                            <th>Cambio</th>
+                            <th>Frame</th>
                             <th>Azioni</th>
                         </tr>
                         </thead>
@@ -47,10 +51,14 @@
                                 <td>{{$ebike->description}}</td>
                                 <td>{{$ebike->power}}</td>
                                 <td>{{$ebike->battery}}</td>
+                                <td>{{$ebike->weight}}</td>
+                                <td>{{$ebike->max_speed}}</td>
+                                <td>{{$ebike->gear}}</td>
+                                <td>{{$ebike->frame}}</td>
                                 <td>
                                     <form action="{{route("ebikes.destroy",$ebike)}}" method="POST">
-                                    <a href="{{route("ebikes.show",$ebike)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>
-                                    <a href="{{route("ebikes.edit",$ebike)}}"><button type="button" class="btn btn-warning"><i class="fas fa-edit"></i></button></a>
+                                        <a href="{{route("ebikes.show",$ebike)}}"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a>
+                                        <a href="{{route("ebikes.edit",$ebike)}}"><button type="button" class="btn btn-warning"><i class="fas fa-edit"></i></button></a>
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

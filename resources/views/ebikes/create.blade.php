@@ -58,6 +58,30 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="battery">Peso</label>
+                                            <input type="number" id="weight" class="form-control" name="weight" placeholder="Peso" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="battery">Velocità Massima</label>
+                                            <input type="number" id="max_speed" class="form-control" name="max_speed" placeholder="Velocità Massima" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="battery">Cambio</label>
+                                            <input type="number" id="gear" class="form-control" name="gear" placeholder="Cambio" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="battery">Tipo Telaio</label>
+                                            <input type="number" id="frame" class="form-control" name="frame" placeholder="Tipo Telaio" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group mb-3">
                                             <label for="formFile" class="form-label">Foto</label>
                                             <input class="form-control" type="file" name="photo" id="formFile" required>

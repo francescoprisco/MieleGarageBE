@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('spareparts', SparePartController::class);
     Route::resource('profiles', ProfileController::class);
     Route::resource('orders', OrderController::class);
+    Route::get('ebikesconnector/migrator/{id}', [EBikeConnectorController::class,'migrator'])->name('ebikesconnector.migrator');
+    Route::post('ebikesconnector/migrate/', [EBikeConnectorController::class,'migrate'])->name('ebikesconnector.migrate');
     Route::resource('ebikesconnector', EBikeConnectorController::class)->except(['show','edit']);
     Route::get('settings/deliveryfees', [SettingController::class,'indexDeliveryFees'])->name('deliveryfees.index');
     Route::get('settings/adddeliveryfees', [SettingController::class,'createDeliveryFees'])->name('deliveryfees.create');

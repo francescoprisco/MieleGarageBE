@@ -32,5 +32,4 @@ class EBikeConnectorController extends Controller
         $ebikesUser->save();
         return $this->success($ebikesUser);
     }
-
 }
