@@ -19,7 +19,9 @@ class EBikeUser extends Model
         'user_id',
         'e_bike_id',
         'order_number',
-        'name'
+        'name',
+        'frame_number',
+        'blue_id'
     ];
 
 

@@ -18,6 +18,7 @@ class CreateUserEBikeTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('e_bike_id');
             $table->string('order_number');
+            $table->string('blue_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('e_bike_id')->references('id')->on('e_bikes');

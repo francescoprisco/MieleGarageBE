@@ -31,8 +31,8 @@ class EBike extends Model implements HasMedia
         'gear',
         'max_speed',
         'weight',
-        'frame'
-    ];
+        'frame',
+        ];
     public function users()
     {
         return $this->belongsToMany(User::class);
